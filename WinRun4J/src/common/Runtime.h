@@ -12,7 +12,7 @@
 #define RUNTIME_H
 
 #define WIN32_LEAN_MEAN
-#include <windows.h>
+#include "windows.h"
 
 // Tags for embedded resources
 #define RT_INI_FILE MAKEINTRESOURCE(687)

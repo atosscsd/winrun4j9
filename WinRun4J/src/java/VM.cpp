@@ -13,14 +13,25 @@
 #include "../common/Log.h"
 #include "../common/INI.h"
 #include "../launcher/Service.h"
+#include <string>
 
-// VM Registry keys
-#define JRE_REG_PATH             TEXT("Software\\JavaSoft\\Java Runtime Environment")
-#define JRE_REG_PATH_WOW6432     TEXT("Software\\Wow6432Node\\JavaSoft\\Java Runtime Environment")
+// JRE-IBM Registry keys
 #define IBM_JRE_REG_PATH         TEXT("Software\\IBM\\Java2 Runtime Environment")
 #define IBM_JRE_REG_PATH_WOW6432 TEXT("Software\\Wow6432Node\\IBM\\Java2 Runtime Environment")
-#define JRE_VERSION_KEY          TEXT("CurrentVersion")
-#define JRE_LIB_KEY              TEXT("RuntimeLib")
+
+// JAVA 8 Registry keys
+#define JRE8_REG_PATH             TEXT("Software\\JavaSoft\\Java Runtime Environment")
+#define JDK8_REG_PATH             TEXT("Software\\JavaSoft\\Java Development Kit")
+#define JRE8_REG_PATH_WOW6432     TEXT("Software\\Wow6432Node\\JavaSoft\\Java Runtime Environment")
+#define JDK8_REG_PATH_WOW6432     TEXT("Software\\Wow6432Node\\JavaSoft\\Java Development Kit")
+
+// JAVA 9 Registry keys
+#define JDK9_REG_PATH             TEXT("Software\\JavaSoft\\JDK")
+
+// JAVA Version/Lib Registry keys
+#define JRE8_VERSION_KEY          TEXT("CurrentVersion")
+#define JRE8_LIB_KEY              TEXT("RuntimeLib")
+#define JRE8_JAVAHOME_KEY         TEXT("JavaHome")
 
 // VM Version keys
 #define MAX_VER
@@ -127,11 +138,19 @@ char* VM::FindJavaVMLibrary(dictionary *ini)
 	return vmDefaultLocation;
 }
 
+bool fileExists(const std::string& name)
+{
+	struct stat buffer;
+	return (stat(name.c_str(), &buffer) == 0);
+}
+
 // Find an appropriate VM library (this needs improving)
 char* VM::GetJavaVMLibrary(LPSTR version, LPSTR min, LPSTR max)
 {
 	TCHAR filename[MAX_PATH];
+	TCHAR javahomePath[MAX_PATH];
 	HKEY hKey, hVersionKey;
+	DWORD length;
 
 	// Find the available versions
 	DWORD numVersions = 255;
@@ -151,9 +170,32 @@ char* VM::GetJavaVMLibrary(LPSTR version, LPSTR min, LPSTR max)
 	if(RegOpenKeyEx(hKey, v->GetVersionStr(), 0, KEY_READ, &hVersionKey) != ERROR_SUCCESS)
 		return NULL;
 
-	DWORD length = MAX_PATH;
-	if(RegQueryValueEx(hVersionKey, JRE_LIB_KEY, NULL, NULL, (LPBYTE)&filename, &length) != ERROR_SUCCESS)
-		return NULL;
+	length = MAX_PATH;
+	if (RegQueryValueEx(hVersionKey, JRE8_LIB_KEY, NULL, NULL, (LPBYTE)&filename, &length) != ERROR_SUCCESS) {
+		//No existe la clave 'JRE8_LIB_KEY', posiblemente porque es una JDK
+		length = MAX_PATH;
+		if (RegQueryValueEx(hVersionKey, JRE8_JAVAHOME_KEY, NULL, NULL, (LPBYTE)&javahomePath, &length) == ERROR_SUCCESS) {
+			//TCHAR* jvmdllPathJava8 = javahomePath + "\\bin\\server\\jvm.dll";
+			//std::string jvmdllPathJava9;
+			TCHAR jvmdllPathJava8[MAX_PATH];
+			strcpy(jvmdllPathJava8, javahomePath);
+			strcat(jvmdllPathJava8, "\\jre\\bin\\server\\jvm.dll");
+
+			TCHAR jvmdllPathJava9[MAX_PATH];
+			strcpy(jvmdllPathJava9, javahomePath);
+			strcat(jvmdllPathJava9, "\\bin\\server\\jvm.dll");
+
+			if (fileExists(jvmdllPathJava9)) {
+				strcpy(filename, jvmdllPathJava9);
+			}
+			else {
+				strcpy(filename, jvmdllPathJava8);
+			}
+
+			
+		}
+	}
+		
 
 // Add check for registry bug with sun amd64 
 #ifdef X64
@@ -202,6 +244,15 @@ Version* VM::FindVersion(Version* versions, DWORD numVersions, LPSTR version, LP
 
 	Version* maxVer = NULL;
 	for(UINT i = 0; i < numVersions; i++) {
+
+		int version0 = versions[i].GetVersionPart()[0]; //Equals 0 for Java 7,8. Equal 9 for Java 9  
+		int version1 = versions[i].GetVersionPart()[1];
+
+		if (version0 > 1) {
+			// JAVA 9 - not supported yet
+			break;
+		}
+
 		bool higher = (min == NULL || minV.Compare(versions[i]) <= 0) &&
 			(max == NULL || maxV.Compare(versions[i]) >= 0) &&
 			(maxVer == NULL || maxVer->Compare(versions[i]) < 0);
@@ -212,6 +263,7 @@ Version* VM::FindVersion(Version* versions, DWORD numVersions, LPSTR version, LP
 	return maxVer;
 }
 
+//TODO DGoodridge - La firma de este metodo se podria cambiar para que devuelva una lista, y q no parametros de entrada
 void VM::FindVersions(Version* versions, DWORD* numVersions)
 {	
 	HKEY hKey;
@@ -219,48 +271,103 @@ void VM::FindVersions(Version* versions, DWORD* numVersions)
 	TCHAR version[MAX_PATH];
 	DWORD size = *numVersions;
 	*numVersions = 0;
+	int regEnumIndex = 0;
 
-	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		for(; *numVersions < size; (*numVersions)++) {
-			length = MAX_PATH;
-			if(RegEnumKeyEx(hKey, *numVersions, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
-				break;
-			
-			versions[*numVersions].Parse(version);
-			versions[*numVersions].SetRegPath(JRE_REG_PATH);
-		}
+	char* javaHome;
+
+	// JAVA_HOME
+	javaHome = getenv("JAVA_HOME");
+	if ((javaHome != NULL) && (javaHome[0] != '\0')) {
+		(*numVersions)++;
+		//TODO DGoodridge - Rehacer para incluir JavaHome, porque esto no pasa por el RegEx, y todo el codigo esta pensado para regex.
+
 	}
 
-	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, IBM_JRE_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		DWORD offset = *numVersions;
-		for(; *numVersions < size; (*numVersions)++) {
+	//JRE-IBM
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, IBM_JRE_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
 			length = MAX_PATH;
-			if(RegEnumKeyEx(hKey, *numVersions - offset, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
 				break;
-			
+
 			versions[*numVersions].Parse(version);
 			versions[*numVersions].SetRegPath(IBM_JRE_REG_PATH);
 		}
 	}
 
-#ifndef X64
-	// Find the 32 bit installs on a 64 bit machine
-	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE_REG_PATH_WOW6432, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		for(; *numVersions < size; (*numVersions)++) {
+	//JRE8
+	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE8_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
 			length = MAX_PATH;
-			if(RegEnumKeyEx(hKey, *numVersions, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
 				break;
 			
 			versions[*numVersions].Parse(version);
-			versions[*numVersions].SetRegPath(JRE_REG_PATH_WOW6432);
+			versions[*numVersions].SetRegPath(JRE8_REG_PATH);
+		}
+	}
+
+	//JDK8
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, JDK8_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
+			length = MAX_PATH;
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				break;
+
+			versions[*numVersions].Parse(version);
+			versions[*numVersions].SetRegPath(JDK8_REG_PATH);
+		}
+	}
+
+	//JDK9
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, JDK9_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
+			length = MAX_PATH;
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				break;
+
+			versions[*numVersions].Parse(version);
+			versions[*numVersions].SetRegPath(JDK9_REG_PATH);
+		}
+	}
+
+
+
+#ifndef X64
+	// Find the 32 bit installs on a 64 bit machine
+	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE8_REG_PATH_WOW6432, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
+			length = MAX_PATH;
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				break;
+			
+			versions[*numVersions].Parse(version);
+			versions[*numVersions].SetRegPath(JRE8_REG_PATH_WOW6432);
+		}
+	}
+
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, JDK8_REG_PATH_WOW6432, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
+			length = MAX_PATH;
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				break;
+
+			versions[*numVersions].Parse(version);
+			versions[*numVersions].SetRegPath(JDK8_REG_PATH_WOW6432);
 		}
 	}
 
 	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, IBM_JRE_REG_PATH_WOW6432, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		DWORD offset = *numVersions;
-		for(; *numVersions < size; (*numVersions)++) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
 			length = MAX_PATH;
-			if(RegEnumKeyEx(hKey, *numVersions - offset, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
 				break;
 			
 			versions[*numVersions].Parse(version);
@@ -268,6 +375,11 @@ void VM::FindVersions(Version* versions, DWORD* numVersions)
 		}
 	}
 #endif
+}
+
+
+int* Version::GetVersionPart() {
+	return VersionPart;
 }
 
 int Version::Compare(Version& other) 
@@ -289,6 +401,7 @@ void Version::Parse(LPSTR version)
 	int index = 0;
 	TCHAR v[MAX_PATH];
 	strcpy(v, version);
+	// Separo la cadena de version en trozos, delimitados por "." o "_"
 	char* output = strtok(v, "._");
 	while(output != NULL) {
 		VersionPart[index++] = atoi(output);

@@ -1,0 +1,14 @@
+Entorno de desarrollo: Visual Studio Community 2017
+
+Es necesario tener instalados los componentes:
+	* Compatibilidad con ATL para Visual C++
+	* Compatibilidad con MFC y ATL (x86 y x64)
+	* Compatibilidad de Windows XP con C++
+	* SDK de Windows Universal CRT
+	* Entorno de tiempo de ejecución de C de Windows Universal
+	* Windows 10 SDK (10.0.16299.0) para escritorio C++ [x86 y x64]
+	
+	
+El proyecto principal es el fichero *.sln
+
+Es necesario tener instaladas JDK para x64 y para x86, e indicar sus rutas en el properties.props de /build.

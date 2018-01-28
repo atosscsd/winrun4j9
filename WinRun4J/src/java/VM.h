@@ -46,6 +46,7 @@ public:
 	char* GetVersionStr() { return VersionStr; }
 	char* GetRegPath() { return RegPath; }
 	void SetRegPath(char *regPath) { strcpy(RegPath, regPath); }
+	int* GetVersionPart();
 
 private:
 	bool Parsed;
