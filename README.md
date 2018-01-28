@@ -1,5 +1,10 @@
-# WinRun4J
+# WinRun4J **fork by dcgoodridge**
+
 Configurable Java Launcher for Windows
+
+## Major changes
+
+* Launcher searches for installed JDK and JRE ( including Java 9 )
 
 ## About
 
