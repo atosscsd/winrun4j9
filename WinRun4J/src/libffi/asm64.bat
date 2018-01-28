@@ -12,8 +12,8 @@ set CFLAGS=-nologo -Zi -D_MD -W3 -DWIN32 -DWINNT -D_WIN32 -D_WINDOWS -D_WINNT -D
 set AS=ml64.exe
 set ASFLAGS=-coff -W3 -Cx -Zm -Dx86_64 -DQUIET -D?QUIET
 
-echo %CPP% /I %DIR% %CFLAGS% %DIR%\%FILE%.S %OUT%\%FILE%.asm
-%CPP% /I %DIR% %CFLAGS% %DIR%\%FILE%.S > %OUT%\%FILE%.asm"
+echo %CPP% /I %DIR% %CFLAGS% "%DIR%\%FILE%.S" "%OUT%\%FILE%.asm"
+%CPP% /I %DIR% %CFLAGS% "%DIR%\%FILE%.S" > "%OUT%\%FILE%.asm"
 
-echo %AS% -c /Fo %OUT%\%FILE%.obj %OUT%\%FILE%.asm 
-%AS% -c /Fo %OUT%\%FILE%.obj %OUT%\%FILE%.asm" 
+echo %AS% -c /Fo "%OUT%\%FILE%.obj" "%OUT%\%FILE%.asm"
+%AS% -c /Fo "%OUT%\%FILE%.obj" "%OUT%\%FILE%.asm" 
