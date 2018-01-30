@@ -27,6 +27,7 @@
 
 // JAVA 9 Registry keys
 #define JDK9_REG_PATH             TEXT("Software\\JavaSoft\\JDK")
+#define JRE9_REG_PATH             TEXT("Software\\JavaSoft\\JRE")
 
 // JAVA Version/Lib Registry keys
 #define JRE8_VERSION_KEY          TEXT("CurrentVersion")
@@ -172,27 +173,29 @@ char* VM::GetJavaVMLibrary(LPSTR version, LPSTR min, LPSTR max)
 
 	length = MAX_PATH;
 	if (RegQueryValueEx(hVersionKey, JRE8_LIB_KEY, NULL, NULL, (LPBYTE)&filename, &length) != ERROR_SUCCESS) {
-		//No existe la clave 'JRE8_LIB_KEY', posiblemente porque es una JDK
+		//La distribucion encontrada es de tipo JDK
 		length = MAX_PATH;
 		if (RegQueryValueEx(hVersionKey, JRE8_JAVAHOME_KEY, NULL, NULL, (LPBYTE)&javahomePath, &length) == ERROR_SUCCESS) {
-			//TCHAR* jvmdllPathJava8 = javahomePath + "\\bin\\server\\jvm.dll";
-			//std::string jvmdllPathJava9;
+
+			//JDK8 dll path 
 			TCHAR jvmdllPathJava8[MAX_PATH];
 			strcpy(jvmdllPathJava8, javahomePath);
 			strcat(jvmdllPathJava8, "\\jre\\bin\\server\\jvm.dll");
 
+			//JDK9 dll path 
 			TCHAR jvmdllPathJava9[MAX_PATH];
 			strcpy(jvmdllPathJava9, javahomePath);
 			strcat(jvmdllPathJava9, "\\bin\\server\\jvm.dll");
 
-			if (fileExists(jvmdllPathJava9)) {
+			bool isJava9 = ( v->GetVersionPart()[0] > 1 );
+
+			if (isJava9) {
 				strcpy(filename, jvmdllPathJava9);
 			}
 			else {
 				strcpy(filename, jvmdllPathJava8);
 			}
-
-			
+	
 		}
 	}
 		
@@ -248,11 +251,6 @@ Version* VM::FindVersion(Version* versions, DWORD numVersions, LPSTR version, LP
 		int version0 = versions[i].GetVersionPart()[0]; //Equals 0 for Java 7,8. Equal 9 for Java 9  
 		int version1 = versions[i].GetVersionPart()[1];
 
-		if (version0 > 1) {
-			// JAVA 9 - not supported yet
-			break;
-		}
-
 		bool higher = (min == NULL || minV.Compare(versions[i]) <= 0) &&
 			(max == NULL || maxV.Compare(versions[i]) >= 0) &&
 			(maxVer == NULL || maxVer->Compare(versions[i]) < 0);
@@ -263,7 +261,6 @@ Version* VM::FindVersion(Version* versions, DWORD numVersions, LPSTR version, LP
 	return maxVer;
 }
 
-//TODO DGoodridge - La firma de este metodo se podria cambiar para que devuelva una lista, y q no parametros de entrada
 void VM::FindVersions(Version* versions, DWORD* numVersions)
 {	
 	HKEY hKey;
@@ -273,15 +270,6 @@ void VM::FindVersions(Version* versions, DWORD* numVersions)
 	*numVersions = 0;
 	int regEnumIndex = 0;
 
-	char* javaHome;
-
-	// JAVA_HOME
-	javaHome = getenv("JAVA_HOME");
-	if ((javaHome != NULL) && (javaHome[0] != '\0')) {
-		(*numVersions)++;
-		//TODO DGoodridge - Rehacer para incluir JavaHome, porque esto no pasa por el RegEx, y todo el codigo esta pensado para regex.
-
-	}
 
 	//JRE-IBM
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, IBM_JRE_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
@@ -332,6 +320,19 @@ void VM::FindVersions(Version* versions, DWORD* numVersions)
 
 			versions[*numVersions].Parse(version);
 			versions[*numVersions].SetRegPath(JDK9_REG_PATH);
+		}
+	}
+
+	//JRE9
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE9_REG_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		for (regEnumIndex = 0; regEnumIndex < size; regEnumIndex++) {
+			(*numVersions)++;
+			length = MAX_PATH;
+			if (RegEnumKeyEx(hKey, regEnumIndex, version, &length, NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				break;
+
+			versions[*numVersions].Parse(version);
+			versions[*numVersions].SetRegPath(JRE9_REG_PATH);
 		}
 	}
 
