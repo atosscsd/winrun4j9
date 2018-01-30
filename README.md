@@ -1,4 +1,4 @@
-# WinRun4J fork
+# WinRun4J
 
 Configurable Java Launcher for Windows **that supports Java 9**
 
