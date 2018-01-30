@@ -1,10 +1,10 @@
-# WinRun4J **fork by dcgoodridge**
+# WinRun4J fork
 
-Configurable Java Launcher for Windows
+Configurable Java Launcher for Windows **that supports Java 9**
 
 ## Major changes
 
-* Launcher searches for installed JDK and JRE ( including Java 9 )
+* Launcher searches for installed JDK and JRE ( including Java 9 ) 
 
 NOTE: The x86-32b launcher won't work with Java 9 (Oracle has dropped Windows 32-bit Client VM).
 
