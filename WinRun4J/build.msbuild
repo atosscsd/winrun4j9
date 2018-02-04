@@ -2,6 +2,10 @@
     DefaultTargets="build" 
     xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+    <Target Name="clean">
+        <RemoveDir Directories="build" />
+    </Target>
+    
     <Target Name="build">
         <MSBuild
             Projects = "ResourceEditor.vcxproj"
@@ -11,7 +15,6 @@
             Projects = "ResourceEditor.vcxproj"
             Properties="Configuration=Release - Console;Platform=x64">
         </MSBuild>
-        
         <MSBuild
             Projects = "WinRun4J.vcxproj"
             Properties="Configuration=Release - Console;Platform=Win32">
@@ -20,7 +23,6 @@
             Projects = "WinRun4J.vcxproj"
             Properties="Configuration=Release - Console;Platform=x64">
         </MSBuild>
-        
         <MSBuild
             Projects = "WinRun4J.vcxproj"
             Properties="Configuration=Release;Platform=Win32">
@@ -29,6 +31,39 @@
             Projects = "WinRun4J.vcxproj"
             Properties="Configuration=Release;Platform=x64">
         </MSBuild>
+    </Target>
+    
+    <Target Name="distribution" DependsOnTargets="build">
+        <!-- RCEDIT -->
+         <Copy
+            SourceFiles="build\ResourceEditor-Release - Console-Win32\ResourceEditor.exe" 
+            DestinationFiles="build\dist\RCEDIT.exe" 
+         />
+         <!-- RCEDIT64 -->
+         <Copy
+            SourceFiles="build\ResourceEditor-Release - Console-x64\ResourceEditor.exe" 
+            DestinationFiles="build\dist\RCEDIT64.exe" 
+         />
+         <!-- WinRun4J console -->
+         <Copy
+            SourceFiles="build\WinRun4J-Release - Console-Win32\WinRun4Jc.exe" 
+            DestinationFiles="build\dist\WinRun4Jc.exe" 
+         />
+         <!-- WinRun4J64 console -->
+         <Copy
+            SourceFiles="build\WinRun4J-Release - Console-x64\WinRun4Jc.exe" 
+            DestinationFiles="build\dist\WinRun4J64c.exe" 
+         />
+         <!-- WinRun4J -->
+         <Copy
+            SourceFiles="build\WinRun4J-Release-Win32\WinRun4J.exe" 
+            DestinationFiles="build\dist\WinRun4J.exe" 
+         />
+         <!-- WinRun4J64 -->
+         <Copy
+            SourceFiles="build\WinRun4J-Release-x64\WinRun4J.exe" 
+            DestinationFiles="build\dist\WinRun4J64.exe" 
+         />
     </Target>
 
 </Project>

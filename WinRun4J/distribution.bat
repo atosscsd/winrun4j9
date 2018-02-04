@@ -1,0 +1,1 @@
+MSBuild .\build.msbuild /t:clean;distribution

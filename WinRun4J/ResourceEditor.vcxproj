@@ -64,22 +64,22 @@
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|Win32'">
-    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|x64'">
-    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release - Console|Win32'">
-    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release - Console|x64'">
-    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|Win32'">
     <ClCompile>
@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>$(JDK86_HOME)\include;$(JDK86_HOME)\include\win32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
-      <ResourceOutputFileName />
+      <ResourceOutputFileName>$(IntDir)%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -131,7 +131,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <ResourceCompile>
-      <ResourceOutputFileName />
+      <ResourceOutputFileName>$(IntDir)%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
