@@ -1,0 +1,34 @@
+<Project 
+    DefaultTargets="build" 
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Target Name="build">
+        <MSBuild
+            Projects = "ResourceEditor.vcxproj"
+            Properties="Configuration=Release - Console;Platform=Win32">
+        </MSBuild>
+        <MSBuild
+            Projects = "ResourceEditor.vcxproj"
+            Properties="Configuration=Release - Console;Platform=x64">
+        </MSBuild>
+        
+        <MSBuild
+            Projects = "WinRun4J.vcxproj"
+            Properties="Configuration=Release - Console;Platform=Win32">
+        </MSBuild>
+        <MSBuild
+            Projects = "WinRun4J.vcxproj"
+            Properties="Configuration=Release - Console;Platform=x64">
+        </MSBuild>
+        
+        <MSBuild
+            Projects = "WinRun4J.vcxproj"
+            Properties="Configuration=Release;Platform=Win32">
+        </MSBuild>
+        <MSBuild
+            Projects = "WinRun4J.vcxproj"
+            Properties="Configuration=Release;Platform=x64">
+        </MSBuild>
+    </Target>
+
+</Project>
