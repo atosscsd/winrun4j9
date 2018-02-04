@@ -64,22 +64,22 @@
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|Win32'">
-    <OutDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|x64'">
-    <OutDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release - Console|Win32'">
-    <OutDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)\</OutDir>
-    <IntDir>$(ProjectName)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release - Console|x64'">
-    <OutDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\build\$(ProjectName)-$(Configuration)-$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)-$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Console|Win32'">
     <ClCompile>
@@ -156,20 +156,20 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\common\Dictionary.cpp" />
-    <ClCompile Include="..\src\common\INI.cpp" />
-    <ClCompile Include="..\src\common\Log.cpp" />
-    <ClCompile Include="..\src\common\Resource.cpp" />
-    <ClCompile Include="..\src\common\Runtime.cpp" />
-    <ClCompile Include="..\src\ResourceEditor.cpp" />
+    <ClCompile Include="src\common\Dictionary.cpp" />
+    <ClCompile Include="src\common\INI.cpp" />
+    <ClCompile Include="src\common\Log.cpp" />
+    <ClCompile Include="src\common\Resource.cpp" />
+    <ClCompile Include="src\common\Runtime.cpp" />
+    <ClCompile Include="src\ResourceEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\common\Dictionary.h" />
-    <ClInclude Include="..\src\common\INI.h" />
-    <ClInclude Include="..\src\common\Log.h" />
-    <ClInclude Include="..\src\common\Resource.h" />
-    <ClInclude Include="..\src\common\Runtime.h" />
-    <ClInclude Include="..\src\ResourceEditor.h" />
+    <ClInclude Include="src\common\Dictionary.h" />
+    <ClInclude Include="src\common\INI.h" />
+    <ClInclude Include="src\common\Log.h" />
+    <ClInclude Include="src\common\Resource.h" />
+    <ClInclude Include="src\common\Runtime.h" />
+    <ClInclude Include="src\ResourceEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

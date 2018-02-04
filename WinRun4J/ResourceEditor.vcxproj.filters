@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\common\Dictionary.cpp">
+    <ClCompile Include="src\common\Dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\INI.cpp">
+    <ClCompile Include="src\common\INI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Log.cpp">
+    <ClCompile Include="src\common\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Resource.cpp">
+    <ClCompile Include="src\common\Resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ResourceEditor.cpp">
+    <ClCompile Include="src\ResourceEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Runtime.cpp">
+    <ClCompile Include="src\common\Runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\common\Dictionary.h">
+    <ClInclude Include="src\common\Dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\INI.h">
+    <ClInclude Include="src\common\INI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Log.h">
+    <ClInclude Include="src\common\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Resource.h">
+    <ClInclude Include="src\common\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ResourceEditor.h">
+    <ClInclude Include="src\ResourceEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Runtime.h">
+    <ClInclude Include="src\common\Runtime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

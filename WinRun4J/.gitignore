@@ -1,2 +1,8 @@
-WinRun4J.ncb
-WinRun4J.suo
+*.suo
+*.user
+*.ncb
+*.userosscache
+*.sln.docstates
+*.userprefs
+build/
+.vs/

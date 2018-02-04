@@ -18,105 +18,105 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\java\Classpath.cpp">
+    <ClCompile Include="src\java\Classpath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\DDE.cpp">
+    <ClCompile Include="src\launcher\DDE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Dictionary.cpp">
+    <ClCompile Include="src\common\Dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\INI.cpp">
+    <ClCompile Include="src\common\INI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\java\JNI.cpp">
+    <ClCompile Include="src\java\JNI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Log.cpp">
+    <ClCompile Include="src\common\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\Native.cpp">
+    <ClCompile Include="src\launcher\Native.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\Runtime.cpp">
+    <ClCompile Include="src\common\Runtime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\Service.cpp">
+    <ClCompile Include="src\launcher\Service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\Shell.cpp">
+    <ClCompile Include="src\launcher\Shell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\SplashScreen.cpp">
+    <ClCompile Include="src\launcher\SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\launcher\Supervisor.cpp">
+    <ClCompile Include="src\launcher\Supervisor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\java\VM.cpp">
+    <ClCompile Include="src\java\VM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WinRun4J.cpp">
+    <ClCompile Include="src\WinRun4J.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libffi\closures.c">
+    <ClCompile Include="src\libffi\closures.c">
       <Filter>libffi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libffi\ffi.c">
+    <ClCompile Include="src\libffi\ffi.c">
       <Filter>libffi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libffi\prep_cif.c">
+    <ClCompile Include="src\libffi\prep_cif.c">
       <Filter>libffi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libffi\types.c">
+    <ClCompile Include="src\libffi\types.c">
       <Filter>libffi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\java\Classpath.h">
+    <ClInclude Include="src\java\Classpath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\DDE.h">
+    <ClInclude Include="src\launcher\DDE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Dictionary.h">
+    <ClInclude Include="src\common\Dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\INI.h">
+    <ClInclude Include="src\common\INI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\java\JNI.h">
+    <ClInclude Include="src\java\JNI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Log.h">
+    <ClInclude Include="src\common\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\Native.h">
+    <ClInclude Include="src\launcher\Native.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\Runtime.h">
+    <ClInclude Include="src\common\Runtime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\Service.h">
+    <ClInclude Include="src\launcher\Service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\Shell.h">
+    <ClInclude Include="src\launcher\Shell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\SplashScreen.h">
+    <ClInclude Include="src\launcher\SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\launcher\Supervisor.h">
+    <ClInclude Include="src\launcher\Supervisor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\java\VM.h">
+    <ClInclude Include="src\java\VM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\WinRun4J.h">
+    <ClInclude Include="src\WinRun4J.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -126,15 +126,15 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\WinRun4J.rc">
+    <ResourceCompile Include="src\WinRun4J.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\src\libffi\win32.S">
+    <CustomBuild Include="src\libffi\win32.S">
       <Filter>libffi</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\src\libffi\win64.S">
+    <CustomBuild Include="src\libffi\win64.S">
       <Filter>libffi</Filter>
     </CustomBuild>
   </ItemGroup>

@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../lib/wcrt.lib psapi.lib"
+				AdditionalDependencies="lib/wcrt.lib psapi.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
@@ -204,7 +204,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/LTCG"
-				AdditionalDependencies="../lib/wcrt.lib psapi.lib"
+				AdditionalDependencies="lib/wcrt.lib psapi.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
 				IgnoreAllDefaultLibraries="true"
@@ -310,27 +310,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\src\common\Dictionary.cpp"
+				RelativePath="src\common\Dictionary.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\INI.cpp"
+				RelativePath="src\common\INI.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Log.cpp"
+				RelativePath="src\common\Log.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Resource.cpp"
+				RelativePath="src\common\Resource.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\ResourceEditor.cpp"
+				RelativePath="src\ResourceEditor.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Runtime.cpp"
+				RelativePath="src\common\Runtime.cpp"
 				>
 			</File>
 		</Filter>
@@ -340,27 +340,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\src\common\Dictionary.h"
+				RelativePath="src\common\Dictionary.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\INI.h"
+				RelativePath="src\common\INI.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Log.h"
+				RelativePath="src\common\Log.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Resource.h"
+				RelativePath="src\common\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\ResourceEditor.h"
+				RelativePath="src\ResourceEditor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\common\Runtime.h"
+				RelativePath="src\common\Runtime.h"
 				>
 			</File>
 		</Filter>
